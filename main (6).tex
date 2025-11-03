@@ -1,108 +1,96 @@
 \documentclass[12pt,a4paper]{article}
 
-% ==== Packages ====
+% --- Packages ---
 \usepackage{geometry}
-\usepackage{graphicx}
+\geometry{margin=1in}
 \usepackage{setspace}
+\setstretch{1.3}
 \usepackage{fancyhdr}
+\usepackage{graphicx}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{titlesec}
-\usepackage{pgfplots}
-\usepackage{pgf-pie}
 \usepackage{caption}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{pgf-pie}
+\usepackage{longtable}
+\usepackage{hyperref}
 
-% ==== Page Setup ====
-\geometry{margin=1in}
-\setstretch{1.5}
+% --- Header / Footer ---
 \pagestyle{fancy}
 \fancyhead[L]{Library Management System}
 \fancyhead[R]{Page \thepage}
 \fancyfoot{}
 
-% ==== Code Styling ====
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% --- Code listing style ---
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
-    commentstyle=\color{gray},
-    keywordstyle=\color{blue},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{purple},
-    basicstyle=\ttfamily\footnotesize,
+\definecolor{keywordcolour}{rgb}{0.0,0.0,0.6}
+\definecolor{stringcolour}{rgb}{0.58,0.0,0.82}
+\definecolor{commentcolour}{rgb}{0.0,0.5,0.0}
+\lstdefinestyle{pyStyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{commentcolour},
+    keywordstyle=\color{keywordcolour}\bfseries,
+    stringstyle=\color{stringcolour},
+    basicstyle=\ttfamily\small,
     breaklines=true,
-    captionpos=b,
     numbers=left,
-    numbersep=5pt,
-    showspaces=false,
-    showstringspaces=false,
-    tabsize=2
+    numberstyle=\tiny,
+    captionpos=b,
+    frame=single,
+    showstringspaces=false
 }
-\lstset{style=mystyle}
+\lstset{style=pyStyle, language=Python}
 
-% ==== Title Section ====
-\title{\textbf{Library Management System}\\[5pt]\large A Python Console Project}
-\author{}
-\date{}
+% --- Title ---
+\title{\textbf{Library Management System}\\[5pt]\large Python Console Application}
+\author{Manas (main.py, utils.py) \\ Piyush (book\_operations.py, manage\_books.py) \\ Smit (helpers.py, storage.py)}
+\date{\today}
 
 \begin{document}
 
 \maketitle
 \thispagestyle{empty}
 
-\vspace{1cm}
-\begin{center}
-\textbf{Submitted by:}\\[4pt]
-Team of Three Members\\
-Under Toolkit for Research Project
-\end{center}
+\begin{abstract}
+This document describes a simple Library Management System implemented in Python. The program is modularized across six files so that three team members can work in parallel. It supports adding, viewing, searching, deleting, and persisting book records (JSON). Example charts illustrate simple dataset summaries.
+\end{abstract}
 
 \newpage
-
-% ==== Table of Contents ====
 \tableofcontents
 \newpage
 
-% ==== Sections ====
 \section{Introduction}
-The Library Management System is a simple Python-based console application designed to manage a collection of books. It allows users to add, view, search, and delete book records, ensuring that data is stored persistently using a JSON file. 
+The Library Management System is a lightweight console application that enables basic CRUD operations (Create, Read, Update, Delete) for book records, and persists data into a JSON file. The project demonstrates modular programming, file I/O, unique ID generation, and simple team collaboration via Git.
 
-This project demonstrates the use of Python’s core concepts like functions, file handling, and modular programming.
-
-\section{Objective}
-\begin{itemize}
-    \item To provide a basic and easy-to-use system for library data management.
-    \item To apply Python programming concepts such as file handling, data structures, and modular coding.
-    \item To help students understand how to split a project among multiple team members using GitHub.
-\end{itemize}
-
-\section{Team Division}
-\begin{center}
-\begin{tabular}{|l|l|}
+\section{Project Structure}
+\begin{longtable}{|p{4cm}|p{9cm}|}
 \hline
-\textbf{Member} & \textbf{Files Assigned} \\ \hline
-Member 1 & main.py, book\_operations.py \\ \hline
-Member 2 & manage\_books.py, helpers.py \\ \hline
-Member 3 & storage.py, utils.py \\ \hline
-\end{tabular}
-\end{center}
+\textbf{File} & \textbf{Purpose} \\ \hline
+\texttt{main.py} & Program entry point; menu and control flow. \\ \hline
+\texttt{book\_operations.py} & Add and view books. \\ \hline
+\texttt{manage\_books.py} & Search and delete books. \\ \hline
+\texttt{helpers.py} & Small helper functions (confirmation, display). \\ \hline
+\texttt{storage.py} & Load and save JSON data. \\ \hline
+\texttt{utils.py} & Utility functions (ID generator). \\ \hline
+\end{longtable}
 
-\section{System Design}
-The system is menu-driven and allows users to:
+\section{How to Run}
 \begin{enumerate}
-    \item Add a new book with title, author, and year.
-    \item View all existing books.
-    \item Search for a book by title or author.
-    \item Delete a book using its unique ID.
-    \item Save all records into a JSON file.
+    \item Upload all Python files into one folder (local or repository).
+    \item Ensure Python 3 is installed.
+    \item Run from terminal:
+    \begin{verbatim}
+    python main.py
+    \end{verbatim}
+    \item Follow the on-screen menu.
 \end{enumerate}
 
-\section{Code Implementation}
-Below are key code snippets from the project.
+\section{Code Listings}
+Below are the source files. (You can copy these into `.py` files.)
 
-\subsection{Main Menu (main.py)}
-\begin{lstlisting}[language=Python, caption=main.py]
+\subsection{main.py}
+\begin{lstlisting}[caption=main.py]
 from book_operations import add_book, view_books
 from manage_books import search_book, delete_book
 from storage import save_data, load_data
@@ -130,14 +118,17 @@ def main():
             delete_book(books)
         elif choice == '5':
             save_data(books)
-            print("Data saved! Exiting...")
+            print("✅ Data saved! Exiting...")
             break
         else:
-            print("Invalid choice, try again!")
+            print("❌ Invalid choice, try again!")
+
+if __name__ == "__main__":
+    main()
 \end{lstlisting}
 
-\subsection{Book Operations (book\_operations.py)}
-\begin{lstlisting}[language=Python, caption=book_operations.py]
+\subsection{book\_operations.py}
+\begin{lstlisting}[caption=book_operations.py]
 from utils import generate_id
 
 def add_book(books):
@@ -148,72 +139,154 @@ def add_book(books):
 
     book = {"id": book_id, "title": title, "author": author, "year": year}
     books.append(book)
-    print("Book added successfully!")
+    print("�� Book added successfully!")
 
 def view_books(books):
     if not books:
         print("No books found in the library.")
         return
+    print("\n--- Library Books ---")
     for b in books:
         print(f"ID: {b['id']} | {b['title']} by {b['author']} ({b['year']})")
 \end{lstlisting}
 
-\section{Data Visualization}
-The following charts show example data analysis from the library system.
+\subsection{manage\_books.py}
+\begin{lstlisting}[caption=manage_books.py]
+def search_book(books):
+    keyword = input("Enter title or author to search: ").lower()
+    results = [b for b in books if keyword in b["title"].lower() or keyword in b["author"].lower()]
+    if results:
+        print("\n--- Search Results ---")
+        for b in results:
+            print(f"{b['id']} - {b['title']} by {b['author']} ({b['year']})")
+    else:
+        print("❌ No books found matching your search.")
 
-\subsection{Bar Graph — Number of Books by Year}
+def delete_book(books):
+    book_id = input("Enter book ID to delete: ")
+    for b in books:
+        if b["id"] == book_id:
+            books.remove(b)
+            print("��️ Book deleted successfully!")
+            return
+    print("❌ No book found with that ID.")
+\end{lstlisting}
+
+\subsection{helpers.py}
+\begin{lstlisting}[caption=helpers.py]
+def confirm_action(message):
+    choice = input(f"{message} (y/n): ").lower()
+    return choice == 'y'
+
+def display_line():
+    print("=" * 40)
+\end{lstlisting}
+
+\subsection{storage.py}
+\begin{lstlisting}[caption=storage.py]
+import json
+import os
+
+FILE_NAME = "books.json"
+
+def load_data():
+    if not os.path.exists(FILE_NAME):
+        return []
+    with open(FILE_NAME, "r") as f:
+        return json.load(f)
+
+def save_data(books):
+    with open(FILE_NAME, "w") as f:
+        json.dump(books, f, indent=4)
+\end{lstlisting}
+
+\subsection{utils.py}
+\begin{lstlisting}[caption=utils.py]
+import uuid
+
+def generate_id():
+    return str(uuid.uuid4())[:8]
+\end{lstlisting}
+
+\section{Sample Dataset (Example)}
+Below is an example dataset (this is what might appear in \texttt{books.json}):
+
+\begin{verbatim}
+[
+  {"id": "a1b2c3d4", "title": "Python Basics", "author": "John Doe", "year": "2023"},
+  {"id": "e5f6g7h8", "title": "Data Science 101", "author": "Alice Smith", "year": "2023"},
+  {"id": "i9j0k1l2", "title": "Intro to ML", "author": "Robert Lee", "year": "2022"}
+]
+\end{verbatim}
+
+\section{Data Visualization (Example Figures)}
+These charts use the example dataset above and are included for report visuals.
+
+\subsection{Bar Chart: Books by Year}
 \begin{center}
 \begin{tikzpicture}
 \begin{axis}[
     ybar,
-    xlabel={Year of Publication},
+    xlabel={Year},
     ylabel={Number of Books},
-    ymin=0, ymax=8,
-    bar width=0.4cm,
-    width=12cm,
-    height=6cm,
-    symbolic x coords={2021,2022,2023,2024},
+    ymin=0,
+    symbolic x coords={2022,2023},
     xtick=data,
     nodes near coords,
-    title={Books Added Each Year}
+    width=12cm,
+    height=6cm,
+    bar width=12pt,
+    title={Books by Year (Example)}
 ]
-\addplot coordinates {(2021,3) (2022,5) (2023,7) (2024,4)};
+\addplot coordinates {(2022,1) (2023,2)};
 \end{axis}
 \end{tikzpicture}
-\captionof{figure}{Bar graph showing number of books added per year.}
+\captionof{figure}{Example bar chart showing number of books by year.}
 \end{center}
 
-\subsection{Pie Chart — Distribution of Books by Author}
+\subsection{Pie Chart: Distribution by Author}
 \begin{center}
 \begin{tikzpicture}
 \pie[text=legend, radius=2.5]{
-30/John Doe,
-25/Alice Smith,
-20/Robert Lee,
-15/Susan Ray,
-10/Others
+33/John Doe,
+33/Alice Smith,
+34/Robert Lee
 }
 \end{tikzpicture}
-\captionof{figure}{Pie chart showing distribution of books by author.}
+\captionof{figure}{Example pie chart showing distribution of books by author.}
 \end{center}
 
-\section{Results}
-The program successfully performs:
-\begin{itemize}
-    \item Adding and viewing books.
-    \item Searching and deleting by ID.
-    \item Storing data persistently using JSON.
-\end{itemize}
-
-\section{Conclusion}
-This project demonstrates modular Python programming and team collaboration using Git and GitHub.  
-It provided practical experience in handling data, implementing file storage, and presenting visual results.
+\section{Sample Console Output}
+\begin{verbatim}
+=== Library Management System ===
+1. Add Book
+2. View Books
+3. Search Book
+4. Delete Book
+5. Save & Exit
+Enter your choice: 1
+Enter book title: Python Basics
+Enter author name: John Doe
+Enter publication year: 2023
+�� Book added successfully!
+\end{verbatim}
 
 \section{Future Enhancements}
 \begin{itemize}
-    \item Add GUI using Tkinter.
-    \item Include admin and user login system.
-    \item Add book borrowing and return feature.
+    \item Add GUI using Tkinter or PyQt.
+    \item Implement user roles (admin, student).
+    \item Add loan/return tracking and due dates.
+    \item Add CSV/Excel import-export.
+\end{itemize}
+
+\section{Acknowledgements}
+Thanks to Manas, Piyush, and Smit for collaborating on code and documentation.
+
+\bigskip
+\noindent\textbf{Notes for Overleaf:}
+\begin{itemize}
+    \item This file uses \texttt{pgfplots} and \texttt{pgf-pie}. Overleaf includes these packages by default.
+    \item If charts do not render, ensure the project compiles with PDFLaTeX and check package availability.
 \end{itemize}
 
 \end{document}
